@@ -22,7 +22,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   background-image: url("assets/onambg.jpg");
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   font-family: "Noto Sans Malayalam", Arial, sans-serif;
