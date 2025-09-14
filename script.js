@@ -3,7 +3,8 @@ let leafOpened = false;
 let sadhyaServed = false;
 
 // 🌿 Manual leaf position (0% = top, 100% = bottom)
-let leafStartTop = 25; // Adjust this to move leaf lower/higher
+let leafStartTop = 25;  // Adjust this to move leaf vertically
+let leafStartLeft = 30; // Adjust this to move leaf horizontally
 
 const scrollBanner = document.querySelector('.scroll-banner');
 const leafContainer = document.querySelector('.leaf-container');
@@ -13,13 +14,10 @@ const sadhyaDiv = document.getElementById('sadhya-items');
 const tooltipDiv = document.getElementById('tooltip');
 const easterBanner = document.querySelector('.easter-banner');
 
-// Apply initial leaf position
-//leafContainer.style.top = leafStartTop + "%";
-
-// Apply initial leaf position via CSS variable
-leafContainer.style.setProperty('--leaf-top', leafStartTop + '%');
-leafContainer.style.left = '30%';
-
+// 🔧 Apply initial leaf position via CSS variables or direct style
+leafContainer.style.setProperty('--leaf-top', `${leafStartTop}%`);
+leafContainer.style.left = `${leafStartLeft}%`;  // Leaf moves left-right
+leafContainer.style.transform = `translateX(-50%) scaleY(0)`; // Ensure initial transform
 
 // 🌿 Leaf opening on scroll
 window.addEventListener('wheel', (e) => {
@@ -30,6 +28,7 @@ window.addEventListener('wheel', (e) => {
   leafProgress += e.deltaY * 0.001;
   leafProgress = Math.min(Math.max(leafProgress, 0), 1);
 
+  // Maintain translateX(-50%) while updating scaleY
   leafContainer.style.transform = `translateX(-50%) scaleY(${leafProgress})`;
 
   if (leafProgress >= 1) {
@@ -45,15 +44,15 @@ serveBtn.addEventListener('click', () => {
   sadhyaServed = true;
   serveBtn.classList.remove('show');
 
-  // Play Onam song
+  // 🔊 Play Onam song
   const audio = new Audio("assets/onamsong.mp3");
   audio.play();
 
-  // Show title
+  // 🎉 Show title
   title.classList.remove("hidden");
   title.classList.add("visible");
 
-  // Place Sadhya items one by one
+  // 🥣 Place each food item one by one
   sadhyaItems.forEach((item, index) => {
     setTimeout(() => {
       const el = document.createElement("div");
@@ -64,6 +63,7 @@ serveBtn.addEventListener('click', () => {
       el.style.animation = `fadeIn 1s forwards`;
       el.style.animationDelay = `${index * 0.5}s`;
 
+      // 🍛 Image element
       const img = document.createElement("img");
       img.src = "assets/images" + item.img;
       img.alt = item.name;
@@ -80,7 +80,7 @@ serveBtn.addEventListener('click', () => {
     }, index * 500);
   });
 
-  // 🎉 Easter Egg banner after all items
+  // 🎊 Easter Egg banner
   const totalTime = sadhyaItems.length * 500 + 500;
   setTimeout(() => {
     easterBanner.classList.remove("hidden");
@@ -105,7 +105,7 @@ function showTooltip(item) {
   tooltipDiv.style.display = "block";
   tooltipDiv.querySelector(".tooltip-close").onclick = () => hideTooltip();
 
-  // 🍌 Trigger banana chip rain for Banana Chips
+  // 🍌 Banana chip rain
   if (item.name === "Upperi (Banana Chips)") {
     triggerBananaRain();
   }
@@ -140,6 +140,7 @@ function triggerBananaRain() {
     setTimeout(() => chip.remove(), duration * 1000);
   }
 }
+
 
 
 
